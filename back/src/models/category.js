@@ -18,7 +18,6 @@ const Sequelize= require('sequelize');
 const Model = Sequelize.Model;
 class Category extends Model {};
 Category.init({
-  product_id: Sequelize.INTEGER,
   category: Sequelize.STRING
 },{
   sequelize,
