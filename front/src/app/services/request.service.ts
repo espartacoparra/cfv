@@ -7,8 +7,12 @@ import { environment } from "../../environments/environment";
 })
 export class RequestService {
   urlback = environment.urlBack;
+  session = 0;
   constructor(private http: HttpClient) { }
 
+  //session
+
+  //sessionEnd
   getUsers(): Observable<any> {
     return this.http.get<any>(this.urlback + 'index');
   }
@@ -16,6 +20,15 @@ export class RequestService {
   //category-----------------------------------------------------
   getCategory(): Observable<any> {
     return this.http.get<any>(this.urlback + 'category');
+  }
+  createCategory(data): Observable<any> {
+    return this.http.post<any>(this.urlback + 'category/create', data);
+  }
+  updateCategory(data): Observable<any> {
+    return this.http.post<any>(this.urlback + 'category/update', data);
+  }
+  deleteCategory(data): Observable<any> {
+    return this.http.post<any>(this.urlback + 'category/delete', data);
   }
 
   //vategoryEnd--------------------------------------------------
@@ -27,6 +40,9 @@ export class RequestService {
 
   createProducts(data): Observable<any> {
     return this.http.post<any>(this.urlback + 'products/create', data);
+  }
+  updateProducts(data): Observable<any> {
+    return this.http.post<any>(this.urlback + 'products/update', data);
   }
   deleteProducts(data): Observable<any> {
     return this.http.post<any>(this.urlback + 'products/delete', data);

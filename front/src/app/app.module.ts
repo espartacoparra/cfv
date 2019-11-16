@@ -25,6 +25,9 @@ import { ProductslistComponent } from './components/admin/products/productslist/
 
 //modulos para formularios
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './components/login/login.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { CategoryComponent } from './components/admin/category/category.component';
 
 
 
@@ -40,7 +43,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     SiderbaradminComponent,
     FooteradminComponent,
     DashboardComponent,
-    ProductslistComponent
+    ProductslistComponent,
+    LoginComponent,
+    AdminComponent,
+    CategoryComponent
   ],
   imports: [
     BrowserModule,

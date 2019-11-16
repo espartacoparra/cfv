@@ -34,11 +34,14 @@ class ProductController {
         console.timeEnd();
     }
     async update(req, res) {
-        User.findAll().then(users => {
-            console.log("All users:", JSON.stringify(users, null, 4));
+        var data = req.body;
+        const Product = await Models.Product.update(data, { where: { id: data.id } });
+        const catDelete = await Models.Categories_Products.destroy({ where: { product_id: data.id } });
+        const cat = data.categories.map(cat => {
+            return { category_id: cat, product_id: data.id };
         });
-        const users = await User.findAll();
-        res.send(users);
+        const Category = await Models.Categories_Products.bulkCreate(cat);
+        res.json(Product);
     }
     async delete(req, res) {
         var data = req.body;

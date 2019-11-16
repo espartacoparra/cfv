@@ -11,9 +11,11 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
         references: {
-          model:'users',
+          model: 'users',
           key: 'id'
         },
+        onDelete: 'RESTRICT',
+        onUpdate: 'CASCADE',
         allowNull: false
       },
       name: {

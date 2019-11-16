@@ -8,7 +8,7 @@
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav flex-column">
                     <li class="nav-divider">
@@ -24,14 +24,16 @@
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="collapse" aria-expanded="false"
                                         data-target="#submenu-1-2" aria-controls="submenu-1-2">Productos</a>
-                                    <div id="submenu-1-2" class="collapse submenu" >
+                                    <div id="submenu-1-2" class="collapse submenu">
                                         <ul class="nav flex-column">
-                                            
+
                                             <li class="nav-item">
-                                                <a class="nav-link" [routerLink]="[ '/dashboard/admin/products/list' ]" routerLinkActive="active" >Lista Product </a>
+                                                <a class="nav-link" [routerLink]="[ '/admin/products/list' ]"
+                                                    routerLinkActive="active">Lista Product </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="ecommerce-product-single.html"> Registrar Productos</a>
+                                                <a class="nav-link" href="ecommerce-product-single.html"> Registrar
+                                                    Productos</a>
                                             </li>
                                             <li class="nav-item">
                                                 <a class="nav-link" href="ecommerce-product-checkout.html">Product
@@ -41,7 +43,8 @@
                                     </div>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" [routerLink]="[ '/dashboardProductsAdmin' ]" routerLinkActive="active" >Productos</a>
+                                    <a class="nav-link" [routerLink]="[ '/admin/category' ]"
+                                        routerLinkActive="active">Categorias</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="dashboard-finance.html">Finance</a>

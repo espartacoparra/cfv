@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="page-header">
-                        <h3 class="mb-2">Lista de Productos </h3>
+                        <h3 class="mb-2">Categorias </h3>
                         <p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta, fusce
                             sit amet vestibulum mi. Morbi lobortis pulvinar quam.</p>
                         <div class="page-breadcrumb">
@@ -127,10 +127,10 @@
                 <!-- ============================================================== -->
                 <div class="col-lg-12">
                     <div class="section-block">
-                        <h3 class="section-title">Productos</h3>
+                        <h3 class="section-title">Categorias</h3>
                         <button type="button" class="btn btn-primary" (click)="open(create,'create','')">Registrar
-                            un
-                            Producto</button>
+                            una
+                            Categoria</button>
                     </div>
                     <div class="card">
                         <div class="campaign-table table-responsive">
@@ -138,40 +138,22 @@
                                 <thead>
                                     <tr class="border-0">
                                         <th class="border-0">Id</th>
-                                        <th class="border-0">Image</th>
                                         <th class="border-0">Nombre</th>
-                                        <th class="border-0">Categoria</th>
-                                        <th class="border-0">Precio</th>
-                                        <th class="border-0">Cantidad</th>
                                         <th class="border-0">Operaciones</th>
-                                    </tr>
+
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let product of products">
-                                        <td>{{product.id}}</td>
-                                        <td>
-                                            <div class="m-r-10">
-                                                <a href="http://localhost:3000/images/{{product.images[0].url}}"
-                                                    target="_blank">
-                                                    <img src="http://localhost:3000/images/{{product.images[0].url}}"
-                                                        alt="user" width="35">
-                                                </a></div>
-                                        </td>
-                                        <td>{{product.name}}</td>
-                                        <td>
-                                            <ul>
-                                                <li *ngFor="let category of  product.categories">
-                                                    {{category.category}}
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td>{{product.price}}</td>
-                                        <td>{{product.quantity}} </td>
+                                    <tr *ngFor="let category of categories">
+                                        <td>{{category.id}}</td>
+
+                                        <td>{{category.category}}</td>
+
+
                                         <td>
                                             <button type="button" name="" id="" class="btn btn-success mr-1"
-                                                (click)="open(update,'update',product)">Editar</button>
+                                                (click)="open(update,'update',category)">Editar</button>
                                             <button type="button" name="" id="" class="btn btn-danger"
-                                                (click)="deleteProduct(product)">Eliminar</button>
+                                                (click)="deleteProduct(category)">Eliminar</button>
                                         </td>
                                     </tr>
 
@@ -292,100 +274,46 @@
 <!-- ============================================================== -->
 <ng-template #create let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+        <h4 class="modal-title" id="modal-basic-title">Regitrar Categoria</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
-        <form [formGroup]="formCreateProduct">
-            <div class="form-group">
-                <label for="">Imagen</label>
-                <input type="file" formControlName="image" (change)="onUploadImage($event)"
-                    accept=".png, .jpg, .jpeg, .pdf" multiple />
-                <small id="helpId" class="text-muted">Help text</small>
-            </div>
+        <form [formGroup]="formCreateCategory">
             <div class="form-group">
                 <label for="">Nombre</label>
-                <input type="text" name="" formControlName="name" id="" class="form-control" placeholder=""
+                <input type="text" name="" formControlName="category" id="" class="form-control" placeholder=""
                     aria-describedby="helpId">
                 <small id="helpId" class="text-muted">Help text</small>
-            </div>
-            <div class="form-group">
-                <label for="">Precio</label>
-                <input type="number" name="" formControlName="price" id="" class="form-control" placeholder=""
-                    aria-describedby="helpId">
-                <small id="helpId" class="text-muted">Help text</small>
-            </div>
-            <div class="form-group">
-                <label for="">Cantidad</label>
-                <input type="text" name="" formControlName="quantity" id="" class="form-control" placeholder=""
-                    aria-describedby="helpId">
-                <small id="helpId" class="text-muted">Help text</small>
-            </div>
-            <div class="form-group">
-                <label for=""></label>
-                <select class="form-control" formControlName="categories" name="" id="" multiple>
-                    <option></option>
-                    <option *ngFor="let category of categories" value="{{category.id}}">{{category.category}}</option>
-                </select>
             </div>
         </form>
     </div>
     <div class="modal-footer">
-        <button type="submit" [disabled]="formCreateProduct.invalid" class="btn btn-outline-dark"
+        <button type="submit" [disabled]="formCreateCategory.invalid" class="btn btn-outline-dark"
             (click)="modal.close('Save click')">Save</button>
     </div>
 </ng-template>
 
 <ng-template #update let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+        <h4 class="modal-title" id="modal-basic-title">Editar Categoria</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
-        <form [formGroup]="formUpdateProduct">
-
+        <form [formGroup]="formUpdateCategory">
             <div class="form-group">
                 <label for="">Nombre</label>
-                <input type="text" name="" formControlName="name" id="" class="form-control" placeholder=""
+                <input type="text" name="" formControlName="category" id="" class="form-control" placeholder=""
                     aria-describedby="helpId">
                 <small id="helpId" class="text-muted">Help text</small>
-            </div>
-            <div class="form-group">
-                <label for="">Precio</label>
-                <input type="number" name="" formControlName="price" id="" class="form-control" placeholder=""
-                    aria-describedby="helpId">
-                <small id="helpId" class="text-muted">Help text</small>
-            </div>
-            <div class="form-group">
-                <label for="">Cantidad</label>
-                <input type="text" name="" formControlName="quantity" id="" class="form-control" placeholder=""
-                    aria-describedby="helpId">
-                <small id="helpId" class="text-muted">Help text</small>
-            </div>
-            <div class="form-group">
-                <label for="" Categorias></label>
-                <label>categorias actuales: </label>
-                <span *ngFor="let category of categories">
-                    <span *ngFor="let catp of formUpdateProduct.value.categories">
-                        <button class="btn btn-info mr-1" *ngIf="catp == category.id ">{{category.category}}</button>
-                    </span>
-                </span>
-
-
-                <select class="form-control mt-1" formControlName="categories"
-                    value="formUpdateProduct.value.categories" name="" id="" multiple size="2">
-                    <option value="" disabled>seleccione Opcion</option>
-                    <option *ngFor="let category of categories" value="{{category.id}}">{{category.category}}</option>
-                </select>
             </div>
         </form>
     </div>
     <div class="modal-footer">
-        <button type="submit" [disabled]="formUpdateProduct.invalid" class="btn btn-outline-dark"
+        <button type="submit" [disabled]="formUpdateCategory.invalid" class="btn btn-outline-dark"
             (click)="modal.close('Save click')">Save</button>
     </div>
 </ng-template>

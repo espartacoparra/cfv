@@ -12,6 +12,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class ProductslistComponent implements OnInit {
   formCreateProduct: FormGroup;
+  formUpdateProduct: FormGroup;
   products = [];
   closeResult: string;
   base64textString = [];
@@ -36,12 +37,17 @@ export class ProductslistComponent implements OnInit {
   }
 
   private updateBuildForm(product) {
-    this.formCreateProduct = this.formBuilder.group({
+    console.log(product);
+    var p = product.categories.map(cat => {
+      return cat.id;
+    });
+    this.formUpdateProduct = this.formBuilder.group({
       name: [product.name, [Validators.required, Validators.minLength(6)]],
       price: [product.price, [Validators.required]],
-      quantity: [product.quantity, [Validators.required]]
+      quantity: [product.quantity, [Validators.required]],
+      categories: [p, [Validators.required]]
     });
-    console.log(this.formCreateProduct);
+    console.log(this.formUpdateProduct);
   }
   /////////////////////////////////////////////////////////////////////
 
@@ -77,15 +83,28 @@ export class ProductslistComponent implements OnInit {
     });
   }
 
-  updateProduct() {
-    console.log('hola');
+  updateProduct(p) {
+    var product = this.formUpdateProduct.value;
+    product.id = p.id;
+    console.log(product);
+    this.request.updateProducts(product).subscribe(data => {
+      console.log(data);
+      this.getProducts();
+    }
+    );
   }
 
   /////////////////////////////////////////////////////////////////////
 
   //modals
-  open(content, operation) {
-    this.createBuildForm();
+  open(content, operation, product) {
+    if (product == '') {
+      this.createBuildForm();
+      console.log('create');
+    } else {
+      this.updateBuildForm(product);
+      console.log('update');
+    }
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       switch (operation) {
@@ -93,7 +112,7 @@ export class ProductslistComponent implements OnInit {
           this.createProduct();
           break;
         case "update":
-          this.updateProduct();
+          this.updateProduct(product);
           break;
 
         default:

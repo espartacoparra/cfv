@@ -12,6 +12,7 @@ router.post("/create", UserController.create);
 
 router.get('/products', ProductController.index);
 router.post('/products/create', ProductController.create);
+router.post('/products/update', ProductController.update);
 router.post('/products/delete', ProductController.delete);
 
 
@@ -20,6 +21,8 @@ router.post('/products/delete', ProductController.delete);
 //crud category--------------------------------------
 
 router.get('/category', CategoryController.index);
+router.post('/category/create', CategoryController.create);
+router.post('/category/update', CategoryController.update);
 //router.post('/products/create', ProductController.create);
 
 
