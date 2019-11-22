@@ -70,6 +70,7 @@ export class ProductslistComponent implements OnInit {
   createProduct() {
     this.formCreateProduct.value.image = this.base64textString;
     var product = this.formCreateProduct.value;
+    product.user_id = this.request.session.id;
     this.request.createProducts(product).subscribe(data => {
       console.log(data);
       this.getProducts();
@@ -85,6 +86,7 @@ export class ProductslistComponent implements OnInit {
 
   updateProduct(p) {
     var product = this.formUpdateProduct.value;
+    product.user_id = this.request.session.id;
     product.id = p.id;
     console.log(product);
     this.request.updateProducts(product).subscribe(data => {

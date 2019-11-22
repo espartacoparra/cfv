@@ -6,12 +6,20 @@ import { DashboardComponent } from "./components/admin/dashboard/dashboard.compo
 import { ProductslistComponent } from './components/admin/products/productslist/productslist.component';
 import { LoginComponent } from "./components/login/login.component";
 import { CategoryComponent } from './components/admin/category/category.component';
+import { SiginComponent } from './components/sigin/sigin.component';
+import { IndexComponent } from './components/public/index/index.component';
+//guards
+import { LoginGuard } from "./guards/login.guard";
+import { LoggedGuard } from './guards/logged.guard';
+import { AdminGuard } from './guards/admin.guard';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent },
+  { path: '', component: LoginComponent, canActivate: [LoggedGuard] },
+  { path: 'sigin', component: SiginComponent, canActivate: [LoggedGuard] },
   {
     path: 'admin',
     component: AdminComponent,
+    canActivate: [LoginGuard, AdminGuard],
     children: [
       {
         path: 'dashboard',
@@ -27,6 +35,7 @@ const routes: Routes = [
       }
     ]
   },
+  { path: 'public', component: IndexComponent, canActivate: [LoginGuard] },
   { path: '**', redirectTo: '' }
 
 ];

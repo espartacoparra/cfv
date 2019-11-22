@@ -12,7 +12,7 @@ class ProductController {
     async create(req, res) {
         console.time();
         var data = req.body;
-        const Product = await Models.Product.create({ user_id: 1, name: data.name, price: data.price, quantity: data.quantity });
+        const Product = await Models.Product.create({ user_id: data.user_id, name: data.name, price: data.price, quantity: data.quantity });
         var cat = data.categories.map(cat => {
             return { category_id: cat, product_id: Product.id };
         });

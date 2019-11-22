@@ -3,10 +3,25 @@ const router = express.Router();
 const UserController = require('../controllers/UserController');
 const ProductController = require('../controllers/ProductController');
 const CategoryController = require('../controllers/CategoryController');
-
+const LoginController = require('../controllers/LoginController');
 router.get("/index", UserController.index);
 router.post("/create", UserController.create);
 
+
+//session--------------------------------------
+
+
+router.post('/sigin', LoginController.sigin);
+
+router.post('/login', LoginController.login);
+router.post('/loadsession', LoginController.loadSession);
+router.post('/logout', LoginController.logOut);
+//router.post('/loguot', LoginController.loguot);
+
+
+
+
+//session End--------------------------------------
 
 //crud products--------------------------------------
 

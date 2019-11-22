@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 //providers
 import { HttpClientModule } from '@angular/common/http';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 //localServices
 import { RequestService } from "./services/request.service";
@@ -28,6 +29,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { CategoryComponent } from './components/admin/category/category.component';
+import { SiginComponent } from './components/sigin/sigin.component';
 
 
 
@@ -46,7 +48,8 @@ import { CategoryComponent } from './components/admin/category/category.componen
     ProductslistComponent,
     LoginComponent,
     AdminComponent,
-    CategoryComponent
+    CategoryComponent,
+    SiginComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,7 +57,8 @@ import { CategoryComponent } from './components/admin/category/category.componen
     FontAwesomeModule,
     HttpClientModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxSpinnerModule
   ],
   providers: [RequestService, ImageService],
   bootstrap: [AppComponent]

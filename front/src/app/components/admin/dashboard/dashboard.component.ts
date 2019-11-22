@@ -7,9 +7,11 @@ import { RequestService } from "../../../services/request.service";
 })
 export class DashboardComponent implements OnInit {
   users = [];
+  userData = null;
   constructor(private request: RequestService) { }
 
   ngOnInit() {
+    this.userData = this.request.session;
     this.getUsers();
   }
 
