@@ -30,6 +30,13 @@ import { LoginComponent } from './components/login/login.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { CategoryComponent } from './components/admin/category/category.component';
 import { SiginComponent } from './components/sigin/sigin.component';
+import { ImagesComponent } from './components/admin/images/images.component';
+import { PublicComponent } from './components/public/public.component';
+import { CardsComponent } from './elements/cards/cards.component';
+import { PublicproductComponent } from './components/public/publicproduct/publicproduct.component';
+import { PubliccategoriesComponent } from './components/public/publiccategories/publiccategories.component';
+import { RegisterproductsComponent } from './components/admin/products/registerproducts/registerproducts.component';
+import { EditproductsComponent } from './components/admin/products/editproducts/editproducts.component';
 
 
 
@@ -50,6 +57,13 @@ import { SiginComponent } from './components/sigin/sigin.component';
     AdminComponent,
     CategoryComponent,
     SiginComponent,
+    ImagesComponent,
+    PublicComponent,
+    CardsComponent,
+    PublicproductComponent,
+    PubliccategoriesComponent,
+    RegisterproductsComponent,
+    EditproductsComponent,
   ],
   imports: [
     BrowserModule,

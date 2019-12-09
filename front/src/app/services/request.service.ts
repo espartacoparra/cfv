@@ -67,6 +67,9 @@ export class RequestService {
   getProducts(): Observable<any> {
     return this.http.get<any>(this.urlback + 'products', { headers: this.generateHeaders() });
   }
+  getOneProduct(id): Observable<any> {
+    return this.http.get<any>(this.urlback + 'product/' + id, { headers: this.generateHeaders() });
+  }
 
   createProducts(data): Observable<any> {
     return this.http.post<any>(this.urlback + 'products/create', data, { headers: this.generateHeaders() });
@@ -78,6 +81,36 @@ export class RequestService {
     return this.http.post<any>(this.urlback + 'products/delete', data, { headers: this.generateHeaders() });
   }
 
+
+
   //PrductsEnd------------------------------------------------------
+
+  //Prducts------------------------------------------------------
+
+  getProductsGalery(id): Observable<any> {
+    return this.http.get<any>(this.urlback + 'products/galery/' + id, { headers: this.generateHeaders() });
+  }
+
+  createProductsGalery(data): Observable<any> {
+    return this.http.post<any>(this.urlback + 'products/galery/create', data, { headers: this.generateHeaders() });
+  }
+  updateProductsGalery(data): Observable<any> {
+    return this.http.post<any>(this.urlback + 'products/galery/update', data, { headers: this.generateHeaders() });
+  }
+  deleteProductsGalery(id): Observable<any> {
+    return this.http.post<any>(this.urlback + 'products/galery/delete', id, { headers: this.generateHeaders() });
+  }
+
+  //PrductsEnd------------------------------------------------------
+
+  //admin methods///////////////////////////////
+  getSizes(): Observable<any> {
+    return this.http.get<any>(this.urlback + 'sizes', { headers: this.generateHeaders() });
+  }
+  //front methods///////////////////////////////
+
+  getProductsPopular(): Observable<any> {
+    return this.http.get<any>(this.urlback + 'products/populars', { headers: this.generateHeaders() });
+  }
 
 }

@@ -12,11 +12,12 @@ export class AdminGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log('adminguard');
+
     if (this.request.session.type == 'admin') {
+      console.log('adminguard');
       return true;
     } else {
-      this.router.navigate(['/public']);
+      this.router.navigate(['/public/index']);
       return false;
     }
   }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { RequestService } from 'src/app/services/request.service';
 
 @Component({
   selector: 'app-index',
@@ -8,12 +9,21 @@ import { environment } from 'src/environments/environment';
 })
 export class IndexComponent implements OnInit {
 
-  urlFrontimagesfront=environment.urlFrontImages;
-  imagesfront=["http://localhost:4200/assets/imagesfront/val2.jpeg","http://localhost:4200/assets/imagesfront/val3.jpeg","http://localhost:4200/assets/imagesfront/val4.jpeg","http://localhost:4200/assets/imagesfront/val5.jpeg","http://localhost:4200/assets/imagesfront/val7.jpeg","http://localhost:4200/assets/imagesfront/val8.jpeg"];
+  urlFrontimagesfront = environment.urlFrontImages;
+  images = ["http://localhost:4200/assets/imagesfront/val9.jpeg", "http://localhost:4200/assets/imagesfront/val3.jpeg", "http://localhost:4200/assets/imagesfront/val4.jpeg", "http://localhost:4200/assets/imagesfront/val5.jpeg", "http://localhost:4200/assets/imagesfront/val7.jpeg", "http://localhost:4200/assets/imagesfront/val8.jpeg"];
+  products = [];
+  constructor(private request: RequestService) {
 
-  constructor() { }
-
-  ngOnInit() {
   }
 
+  ngOnInit() {
+    this.getProductsPopulars();
+  }
+
+  getProductsPopulars() {
+    this.request.getProductsPopular().subscribe(data => {
+      console.log(data);
+      this.products = data;
+    });
+  }
 }

@@ -27,6 +27,12 @@ class CategoryController {
     async delete(req, res) {
 
     }
+
+    async getSize(req, res) {
+        const Size = await Models.Size.findAll();
+        res.json(Size);
+    }
+
 }
 
 module.exports = new CategoryController();

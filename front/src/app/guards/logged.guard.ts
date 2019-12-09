@@ -15,7 +15,11 @@ export class LoggedGuard implements CanActivate {
     if (this.request.session == null) {
       return true;
     } else {
-      this.router.navigate(['/admin/dashboard']);
+      if (this.request.session.type == 'admin') {
+        this.router.navigate(['/admin/dashboard']);
+      } else {
+        this.router.navigate(['/public']);
+      }
       return false;
     }
   }

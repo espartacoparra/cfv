@@ -4,6 +4,7 @@ const UserController = require('../controllers/UserController');
 const ProductController = require('../controllers/ProductController');
 const CategoryController = require('../controllers/CategoryController');
 const LoginController = require('../controllers/LoginController');
+const ImageController = require('../controllers/ImageController');
 router.get("/index", UserController.index);
 router.post("/create", UserController.create);
 
@@ -20,18 +21,29 @@ router.post('/logout', LoginController.logOut);
 
 
 
-
 //session End--------------------------------------
 
 //crud products--------------------------------------
 
 router.get('/products', ProductController.index);
+router.get('/product/:id', ProductController.getOne);
 router.post('/products/create', ProductController.create);
 router.post('/products/update', ProductController.update);
 router.post('/products/delete', ProductController.delete);
 
+router.get('/products/populars', ProductController.populars);
 
 //crud products End--------------------------------------
+
+//crud productsGalery--------------------------------------
+
+router.get('/products/galery/:id', ImageController.index);
+router.post('/products/galery/create', ImageController.create);
+router.post('/products/galery/update', ImageController.update);
+router.post('/products/galery/delete', ImageController.delete);
+
+
+//crud productsGalery End--------------------------------------
 
 //crud category--------------------------------------
 
@@ -43,4 +55,12 @@ router.post('/category/update', CategoryController.update);
 
 //crud category End--------------------------------------
 
+//methods size--------------------------------------
+
+router.get('/sizes', CategoryController.getSize);
+
+
+
+
+//methods size End--------------------------------------
 module.exports = router;

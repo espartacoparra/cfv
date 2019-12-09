@@ -30,6 +30,7 @@ export class ProductslistComponent implements OnInit {
       image: [[], [Validators.required]],
       name: ["", [Validators.required, Validators.minLength(6)]],
       price: ["", [Validators.required]],
+      description: ["", [Validators.required]],
       quantity: ["", [Validators.required]],
       categories: ["", [Validators.required]]
     });
@@ -44,6 +45,7 @@ export class ProductslistComponent implements OnInit {
     this.formUpdateProduct = this.formBuilder.group({
       name: [product.name, [Validators.required, Validators.minLength(6)]],
       price: [product.price, [Validators.required]],
+      description: [product.description, [Validators.required]],
       quantity: [product.quantity, [Validators.required]],
       categories: [p, [Validators.required]]
     });

@@ -2,6 +2,8 @@ const Models = require('../models/models');
 const Sequelize = require('sequelize');
 const Code = require('../config/code');
 var jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 const Op = Sequelize.Op;
 class LoginController {
 
@@ -26,9 +28,9 @@ class LoginController {
             const validateUser = await Models.User.findOne({ where: { [Op.or]: [{ email: data.email }, { cedula: data.cedula }] } });
             console.log(validateUser);
             if (validateUser != null) {
-
                 res.json(1);
             } else {
+                data.password = await bcrypt.hash(data.password, saltRounds);
                 const createUser = await Models.User.create(data);
                 var tk = jwt.sign({ foo: 'bar' }, Code.key);
                 const Token = await Models.Token.create({ user_id: createUser.id, token: tk });
@@ -43,12 +45,17 @@ class LoginController {
         var data = req.body;
         console.log(data);
         try {
-            const validateUser = await Models.User.findOne({ where: { [Op.and]: [{ email: data.email }, { password: data.password }] } });
+            const validateUser = await Models.User.findOne({ where: { email: data.email } });
             if (validateUser != null) {
-                var tk = jwt.sign({ foo: 'bar' }, Code.key);
-                const Token = await Models.Token.create({ user_id: validateUser.id, token: tk });
-                const User = await Models.User.findOne({ where: { id: validateUser.id }, include: { model: Models.Token, where: { id: Token.id } } })
-                res.json(User);
+                const match = await bcrypt.compare(data.password, validateUser.password);
+                if (match) {
+                    var tk = jwt.sign({ foo: 'bar' }, Code.key);
+                    const Token = await Models.Token.create({ user_id: validateUser.id, token: tk });
+                    const User = await Models.User.findOne({ where: { id: validateUser.id }, include: { model: Models.Token, where: { id: Token.id } } })
+                    res.json(User);
+                } else {
+                    res.json(1);
+                }
             } else {
                 res.json(1);
             }

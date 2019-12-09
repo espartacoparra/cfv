@@ -16,16 +16,17 @@ module.exports = (Sequelize, DataTypes) => {
 };*/
 
 const sequelize = require('../connections/mysql');
-const Sequelize= require('sequelize');
+const Sequelize = require('sequelize');
 const Model = Sequelize.Model;
-class Product extends Model {};
+class Product extends Model { };
 Product.init({
   user_id: Sequelize.INTEGER,
   name: Sequelize.STRING,
   price: Sequelize.STRING,
+  description: Sequelize.TEXT,
   quantity: Sequelize.STRING
-},{
+}, {
   sequelize,
   modelName: 'products'
 });
-module.exports= Product;
+module.exports = Product;

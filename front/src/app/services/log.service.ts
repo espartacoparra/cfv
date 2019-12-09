@@ -19,7 +19,15 @@ export class LogService {
         this.request.token = data.tokens[0].token;
         this.request.id = data.id;
         localStorage.setItem('session', JSON.stringify(data));
-        this.router.navigate(['/admin/dashboard']);
+
+        console.log(data);
+        if (data.type == 'admin') {
+          console.log('admin');
+          this.router.navigate(['/admin/dashboard']);
+        } else {
+          console.log('user');
+          this.router.navigate(['/public/index']);
+        }
       }
       this.spinner.hide();
     });
@@ -35,7 +43,11 @@ export class LogService {
         this.request.token = data.tokens[0].token;
         this.request.id = data.id;
         localStorage.setItem('session', JSON.stringify(data));
-        this.router.navigate(['/admin/dashboard']);
+        if (data.type == 'admin') {
+          this.router.navigate(['/admin/dashboard']);
+        } else {
+          this.router.navigate(['/public/index']);
+        }
       }
       this.spinner.hide();
     });
@@ -45,10 +57,14 @@ export class LogService {
   loadSession() {
     this.spinner.show();
     var session = JSON.parse(localStorage.getItem('session'));
+    console.log(session);
     if (session == null) {
       this.clearSession();
       this.spinner.hide();
     } else {
+      this.request.session = session;
+      this.request.token = session.tokens[0].token;
+      this.request.id = session.id;
       this.request.loadSession(session).subscribe(data => {
         if (data == null || data == 1) {
           this.clearSession();
@@ -57,7 +73,12 @@ export class LogService {
           this.request.token = data.tokens[0].token;
           this.request.id = data.id;
           localStorage.setItem('session', JSON.stringify(data));
-          this.router.navigate(['/admin/dashboard']);
+          /* if (data.type == 'admin') {
+             this.router.navigate(['/admin/dashboard']);
+           } else {
+             this.router.navigate(['/public/index']);
+           }
+ */
         }
         this.spinner.hide();
       });
