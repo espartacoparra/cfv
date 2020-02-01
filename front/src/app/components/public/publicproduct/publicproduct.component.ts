@@ -1,15 +1,70 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { RequestService } from 'src/app/services/request.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-publicproduct',
   templateUrl: './publicproduct.component.html',
   styleUrls: ['./publicproduct.component.css']
 })
 export class PublicproductComponent implements OnInit {
-
-  constructor() { }
+  id: number;
+  product = {};
+  related = [];
+  formToAddCart: FormGroup;
+  constructor(private activeroute: ActivatedRoute, private request: RequestService, private router: Router, private _location: Location, private formBuilder: FormBuilder) {
+    this.id = this.activeroute.snapshot.params.id
+    router.events.subscribe(val => {
+      console.log(val);
+      this.id = this.activeroute.snapshot.params.id
+      this.getProduct();
+      console.log(this.product);
+    });
+  }
 
   ngOnInit() {
+    this.getProduct();
+    this.createForm();
+    console.log(this.formToAddCart);
   }
+
+  createForm() {
+    this.formToAddCart = this.formBuilder.group({
+      size: ["", [Validators.required]],
+      quantity: [1, [Validators.required, Validators.min(1)]],
+    });
+  }
+
+
+
+  getProduct() {
+    window.scroll(0, 0);
+    this.request.getOneProduct(this.id).subscribe(data => {
+      this.product = data;
+      console.log(data);
+      this.getRelated(data.categories[0]);
+    });
+  }
+
+  getRelated(data) {
+    this.request.getRelated(data).subscribe(data => {
+      this.related = data;
+      console.log(data);
+    });
+  }
+
+  goBack() {
+    this._location.back();
+  }
+
+  addToCart() {
+    var product = { product: this.product, request: this.formToAddCart.value }
+    this.request.addToCart(product).subscribe(data => {
+      console.log(data);
+    });
+  }
+
 
 }

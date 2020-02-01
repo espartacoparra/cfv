@@ -5,3 +5,14 @@
 .margintop{
     margin-top: 90px;
 }
+
+/*buttons*/
+.pink-button{
+    background-color:#e7b6b2 ;
+    color: white;
+}
+.pink-button:hover{
+    background-color:#e7b6b2 ;
+    opacity: 0.5;
+    color: black;
+}

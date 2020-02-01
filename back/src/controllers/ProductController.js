@@ -1,6 +1,8 @@
 
 const Models = require('../models/models');
 const fs = require('fs');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const enviroment = require('../config/enviroment');
 const imgPath = './public/images/';
 class ProductController {
@@ -19,7 +21,7 @@ class ProductController {
     async getOne(req, res) {
         var id = req.params.id;
         try {
-            const products = await Models.Product.findOne({ where: { id: id }, include: [{ model: Models.Category }, { model: Models.Color }, { model: Models.Size }, { model: Models.Category }] });
+            const products = await Models.Product.findOne({ where: { id: id }, include: [{ model: Models.Category }, { model: Models.Color }, { model: Models.Size }, { model: Models.Category }, { model: Models.Image }] });
             res.json(products);
         } catch (error) {
             res.json()
@@ -29,6 +31,7 @@ class ProductController {
 
     async create(req, res) {
         var data = req.body;
+        return res.json(data);
         try {
             const Product = await Models.Product.create({ user_id: data.user_id, name: data.name, price: data.price, description: data.description, quantity: data.quantity });
             data.product_id = Product.id;
@@ -107,8 +110,54 @@ class ProductController {
         } catch (error) {
             res.json()
         }
-
     }
+
+    async getRelated(req, res) {
+        var data = req.body;
+
+        try {
+            const Product = await Models.Product.findAll({ include: [{ model: Models.Category, where: { id: 1 } }, { model: Models.Color }, { model: Models.Size }, { model: Models.Category }, { model: Models.Image }] });
+            res.json(Product);
+        } catch (error) {
+
+        }
+    }
+
+    //public methods
+    async getAllForCategories(req, res) {
+        var data = req.body;
+        //res.json(data.query);
+        try {
+            var cat = await Models.Category.findAll();
+            cat = cat.map(cat => { return { id: cat.id } });
+            var siz = await Models.Size.findAll();
+            siz = siz.map(siz => { return { id: siz.id } });
+            //res.json(siz);
+            if (data.query == '0') {
+                const Product = await Models.Product.findAll({ include: [{ model: Models.Category, where: { [Op.or]: cat } }, { model: Models.Size, where: { [Op.or]: siz } }, { model: Models.Image }] });
+                res.json(Product);
+            } else {
+                var c = "";
+                var s = "";
+                if (data.categories.length == 0) {
+                    c = cat;
+                } else {
+                    c = data.categories;
+                }
+                if (data.sizes.length == 0) {
+                    s = siz;
+                } else {
+                    s = data.sizes;
+                }
+                //res.json(data);
+                const Product = await Models.Product.findAll({ include: [{ model: Models.Category, where: { [Op.or]: c } }, { model: Models.Size, where: { [Op.or]: s } }, { model: Models.Image }] });
+                res.json(Product);
+            }
+
+        } catch (error) {
+            res.json(error);
+        }
+    };
 
 }
 

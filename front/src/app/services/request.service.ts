@@ -43,11 +43,13 @@ export class RequestService {
   }
   //sessionEnd----------------------------------------------------
 
+  //admin methods///////////////////////////////
+
   getUsers(): Observable<any> {
     return this.http.get<any>(this.urlback + 'index', { headers: this.generateHeaders() });
   }
 
-  //category-----------------------------------------------------
+  //category Admin-----------------------------------------------------
   getCategory(): Observable<any> {
     return this.http.get<any>(this.urlback + 'category');
   }
@@ -61,7 +63,7 @@ export class RequestService {
     return this.http.post<any>(this.urlback + 'category/delete', data, { headers: this.generateHeaders() });
   }
 
-  //vategoryEnd--------------------------------------------------
+  //category Admin End--------------------------------------------------
   //Prducts------------------------------------------------------
 
   getProducts(): Observable<any> {
@@ -103,14 +105,35 @@ export class RequestService {
 
   //PrductsEnd------------------------------------------------------
 
-  //admin methods///////////////////////////////
+
   getSizes(): Observable<any> {
     return this.http.get<any>(this.urlback + 'sizes', { headers: this.generateHeaders() });
   }
+  //end admin methods///////////////////////////////
+
+
   //front methods///////////////////////////////
 
   getProductsPopular(): Observable<any> {
     return this.http.get<any>(this.urlback + 'products/populars', { headers: this.generateHeaders() });
   }
+
+  getRelated(categories): Observable<any> {
+    return this.http.post<any>(this.urlback + 'product/related', categories, { headers: this.generateHeaders() });
+  }
+
+  //products for category 
+  getAllForCategories(query): Observable<any> {
+    return this.http.post<any>(this.urlback + 'product/for/category', query, { headers: this.generateHeaders() });
+  }
+  //products for category End
+
+  //cart operations
+  addToCart(data): Observable<any> {
+    return this.http.post<any>(this.urlback + 'cart/add', data, { headers: this.generateHeaders() })
+  }
+  //cart operations end
+
+  //end front methods///////////////////////////////
 
 }

@@ -14,4 +14,9 @@ export class PublicComponent implements OnInit {
     //this.router.navigate(['/public/index']);
   }
 
+  onActivate(event) {
+    window.scroll(0, 0);
+    //or document.body.scrollTop = 0;
+    //or document.querySelector('body').scrollTo(0,0)
+  }
 }

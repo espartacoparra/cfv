@@ -16,7 +16,8 @@ const Model = Sequelize.Model;
 class Products_Size extends Model { };
 Products_Size.init({
   size_id: Sequelize.INTEGER,
-  product_id: Sequelize.INTEGER
+  product_id: Sequelize.INTEGER,
+  quantity: Sequelize.STRING
 }, {
   sequelize,
   modelName: 'products_sizes'

@@ -28,6 +28,9 @@ module.exports = {
         onUpdate: 'CASCADE',
         allowNull: false
       },
+      quantity: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

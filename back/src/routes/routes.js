@@ -5,6 +5,7 @@ const ProductController = require('../controllers/ProductController');
 const CategoryController = require('../controllers/CategoryController');
 const LoginController = require('../controllers/LoginController');
 const ImageController = require('../controllers/ImageController');
+const CartController = require('../controllers/CartController');
 router.get("/index", UserController.index);
 router.post("/create", UserController.create);
 
@@ -58,9 +59,23 @@ router.post('/category/update', CategoryController.update);
 //methods size--------------------------------------
 
 router.get('/sizes', CategoryController.getSize);
-
-
-
-
 //methods size End--------------------------------------
+
+
+//methods front--------------------------------------
+
+//methods product related--------------------------------------
+
+router.post('/product/related', ProductController.getRelated);
+router.post('/product/for/category', ProductController.getAllForCategories);
+//methods  product related End--------------------------------------
+
+//methods categories
+router.get('/categories/all', CategoryController.getAllCategories);
+//methods categories end
+
+//cart operations
+router.post('/cart/add', CartController.create);
+//cart operations end
+//methods front End--------------------------------------
 module.exports = router;

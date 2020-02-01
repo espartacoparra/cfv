@@ -1,4 +1,6 @@
 const Models = require('../models/models');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 class CategoryController {
     async index(req, res) {
         const categories = await Models.Category.findAll();
@@ -8,7 +10,7 @@ class CategoryController {
     async create(req, res) {
         var date = req.body;
         try {
-            const Category = Models.Category.create(date);
+            const Category = await Models.Category.create(date);
             res.json('ok');
         } catch (error) {
             res.json(error);
@@ -18,7 +20,7 @@ class CategoryController {
         var data = req.body;
         console.log(data);
         try {
-            const Category = Models.Category.update(data, { where: { id: data.id } });
+            const Category = await Models.Category.update(data, { where: { id: data.id } });
             res.json('ok');
         } catch (error) {
             res.json(error);
@@ -32,6 +34,16 @@ class CategoryController {
         const Size = await Models.Size.findAll();
         res.json(Size);
     }
+
+    //public methods
+    async getAllCategories(req, res) {
+        try {
+            const Categories = await Models.Category.findAll({ include: { model: Models.Category, where: { [Op.or]: [{ id: 1 }] } } });
+            res.json(Categories);
+        } catch (error) {
+            res.json(error);
+        }
+    };
 
 }
 

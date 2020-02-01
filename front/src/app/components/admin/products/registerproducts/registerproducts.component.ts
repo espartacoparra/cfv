@@ -17,6 +17,7 @@ export class RegisterproductsComponent implements OnInit {
   base64textString = [];
   categories = "";
   sizes = "";
+  dataSize = [];
   constructor(private router: Router, private request: RequestService, private formBuilder: FormBuilder, private imgService: ImageService) { }
 
   ngOnInit() {
@@ -34,9 +35,6 @@ export class RegisterproductsComponent implements OnInit {
       description: ["", [Validators.required]],
       quantity: ["", [Validators.required]],
       categories: ["", [Validators.required]],
-      color1: ["", [Validators.required]],
-      color2: ["", [Validators.required]],
-      color3: ["", [Validators.required]],
       size: ["", [Validators.required]]
     });
     console.log(this.formCreateProduct);
@@ -67,8 +65,19 @@ export class RegisterproductsComponent implements OnInit {
     console.log(product);
     this.request.createProducts(product).subscribe(data => {
       console.log(data);
-      this.router.navigate(['/admin/products/list']);
+      // this.router.navigate(['/admin/products/list']);
     });
+  }
+
+  addSizeCount(size) {
+    this.formCreateProduct.value.size = this.formCreateProduct.value.size.map(id => {
+      this.dataSize
+      if (id == size.id) {
+        this.dataSize = 
+        return { id: id, size: size.name };
+      }
+    });
+    console.log(this.formCreateProduct.value.size);
   }
 
 
