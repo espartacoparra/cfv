@@ -40,7 +40,7 @@
                         <h4>Size</h4>
                         <div class="btn-group" role="group" aria-label="First group">
                             <button *ngFor="let size of product.sizes" type="button" class="btn btn-outline-light"
-                                (click)="formToAddCart.value.size=size.id">{{size.size}}</button>
+                                (click)="formToAddCart.value.size=size.id">{{size.size}}:{{size.products_sizes.quantity}}</button>
                         </div>
                         <div class="product-qty">
                             <h4>Quantity</h4>

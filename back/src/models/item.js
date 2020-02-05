@@ -15,16 +15,17 @@ module.exports = (sequelize, DataTypes) => {
 
 
 const sequelize = require('../connections/mysql');
-const Sequelize= require('sequelize');
+const Sequelize = require('sequelize');
 const Model = Sequelize.Model;
-class Item extends Model {};
+class Item extends Model { };
 Item.init({
   order_id: Sequelize.INTEGER,
   product_id: Sequelize.INTEGER,
+  size_id: Sequelize.INTEGER,
   quantity: Sequelize.STRING,
   price: Sequelize.DOUBLE
-},{
+}, {
   sequelize,
   modelName: 'items'
 });
-module.exports= Item;
+module.exports = Item;

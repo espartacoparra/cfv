@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { RequestService } from 'src/app/services/request.service';
-import { ImageService } from 'src/app/services/image.service';
-import { Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormBuilder, Validators, FormArray } from "@angular/forms";
+import { RequestService } from "src/app/services/request.service";
+import { ImageService } from "src/app/services/image.service";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-registerproducts',
-  templateUrl: './registerproducts.component.html',
-  styleUrls: ['./registerproducts.component.css']
+  selector: "app-registerproducts",
+  templateUrl: "./registerproducts.component.html",
+  styleUrls: ["./registerproducts.component.css"]
 })
 export class RegisterproductsComponent implements OnInit {
   formCreateProduct: FormGroup;
+  sizeItems: FormArray;
 
   products = [];
   closeResult: string;
@@ -18,7 +19,13 @@ export class RegisterproductsComponent implements OnInit {
   categories = "";
   sizes = "";
   dataSize = [];
-  constructor(private router: Router, private request: RequestService, private formBuilder: FormBuilder, private imgService: ImageService) { }
+  selectSize = [];
+  constructor(
+    private router: Router,
+    private request: RequestService,
+    private formBuilder: FormBuilder,
+    private imgService: ImageService
+  ) {}
 
   ngOnInit() {
     this.createBuildForm();
@@ -33,13 +40,11 @@ export class RegisterproductsComponent implements OnInit {
       name: ["", [Validators.required, Validators.minLength(6)]],
       price: ["", [Validators.required]],
       description: ["", [Validators.required]],
-      quantity: ["", [Validators.required]],
       categories: ["", [Validators.required]],
-      size: ["", [Validators.required]]
+      size: this.formBuilder.array([])
     });
     console.log(this.formCreateProduct);
   }
-
 
   /////////////////////////////////////////////////////////////////////
 
@@ -51,7 +56,7 @@ export class RegisterproductsComponent implements OnInit {
     });
   }
   getsizes() {
-    console.log('a');
+    console.log("a");
     this.request.getSizes().subscribe(data => {
       console.log(data);
       this.sizes = data;
@@ -65,21 +70,42 @@ export class RegisterproductsComponent implements OnInit {
     console.log(product);
     this.request.createProducts(product).subscribe(data => {
       console.log(data);
-      // this.router.navigate(['/admin/products/list']);
+      this.router.navigate(["/admin/products/list"]);
     });
   }
 
-  addSizeCount(size) {
-    this.formCreateProduct.value.size = this.formCreateProduct.value.size.map(id => {
-      this.dataSize
-      if (id == size.id) {
-        this.dataSize = 
-        return { id: id, size: size.name };
+  createSize(size): FormGroup {
+    return this.formBuilder.group({
+      name: size.size,
+      sizeId: size.id,
+      quantity: ["", Validators.required]
+    });
+  }
+
+  addItem(size): void {
+    var c = 0;
+    var k = this.formCreateProduct.value.size.map(data => {
+      if (data.sizeId != size.id) {
+        console.log(data);
+        console.log(size.id);
+        console.log("diferentes");
+        return data;
+      } else {
+        console.log("repetido");
+        c++;
       }
     });
-    console.log(this.formCreateProduct.value.size);
+    if (c == 0) {
+      this.sizeItems = this.formCreateProduct.get("size") as FormArray;
+      console.log(this.sizeItems);
+      this.sizeItems.push(this.createSize(size));
+      console.log(this.formCreateProduct);
+    }
   }
 
+  removeItem(id) {
+    this.sizeItems.removeAt(id);
+  }
 
   ////////////////////////////////////////////////
   // load image
@@ -90,5 +116,4 @@ export class RegisterproductsComponent implements OnInit {
     this.formCreateProduct.value.image = data;
     console.log(this.formCreateProduct);
   }
-
 }

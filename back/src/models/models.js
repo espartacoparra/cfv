@@ -72,4 +72,10 @@ Item.belongsTo(Order, { foreignKey: 'order_id' });
 //
 
 
+//size and items
+Size.hasOne(Item, { foreignKey: 'size_id' });
+Item.belongsTo(Size, { foreignKey: 'size_id' });
+//
+
+
 module.exports = Models;

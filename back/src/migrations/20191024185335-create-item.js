@@ -28,6 +28,16 @@ module.exports = {
         onUpdate: 'CASCADE',
         allowNull: false
       },
+      size_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'sizes',
+          key: 'id'
+        },
+        onDelete: 'RESTRICT',
+        onUpdate: 'CASCADE',
+        allowNull: false
+      },
       quantity: {
         type: Sequelize.STRING
       },

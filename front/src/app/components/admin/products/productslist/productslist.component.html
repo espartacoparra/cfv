@@ -165,7 +165,13 @@
                                             </ul>
                                         </td>
                                         <td>{{product.price}}</td>
-                                        <td>{{product.quantity}} </td>
+                                        <td>
+                                            <ul>
+                                                <li *ngFor="let size of product.sizes">
+                                                    {{size.size}}: {{size.products_sizes.quantity}}
+                                                </li>
+                                            </ul>
+                                        </td>
                                         <td>
                                             <button type="button" name="" id="" class="btn btn-success mr-1"
                                                 [routerLink]="['/admin/product/edit', product.id]"

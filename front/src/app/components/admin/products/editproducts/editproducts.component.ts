@@ -1,26 +1,30 @@
-import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { RequestService } from 'src/app/services/request.service';
+import { Component, OnInit } from "@angular/core";
+import { Validators, FormBuilder, FormGroup, FormArray } from "@angular/forms";
+import { Router, ActivatedRoute, Params } from "@angular/router";
+import { RequestService } from "src/app/services/request.service";
 
 @Component({
-  selector: 'app-editproducts',
-  templateUrl: './editproducts.component.html',
-  styleUrls: ['./editproducts.component.css']
+  selector: "app-editproducts",
+  templateUrl: "./editproducts.component.html",
+  styleUrls: ["./editproducts.component.css"]
 })
 export class EditproductsComponent implements OnInit {
-
-
   formUpdateProduct: FormGroup;
+  sizeItems: FormArray;
+
   id: BigInteger;
   products = [];
   closeResult: string;
   base64textString = [];
   categories = "";
-  sizes = "";
+  sizes = [];
   colorId = 0;
-  constructor(private router: Router, private request: RequestService, private formBuilder: FormBuilder, private activeroute: ActivatedRoute) {
-
+  constructor(
+    private router: Router,
+    private request: RequestService,
+    private formBuilder: FormBuilder,
+    private activeroute: ActivatedRoute
+  ) {
     this.id = this.activeroute.snapshot.params.id;
     //this.getOneProduct();
   }
@@ -49,32 +53,30 @@ export class EditproductsComponent implements OnInit {
   }
 
   private createBuildForm(data) {
-    console.log(data)
+    console.log(data);
     var cat = data.categories.map(cat => {
       return cat.id;
     });
     var siz = data.sizes.map(siz => {
-      return siz.id;
+      return {
+        name: siz.size,
+        sizeId: siz.products_sizes.size_id,
+        quantity: siz.products_sizes.quantity
+      };
     });
     console.log(siz);
-    console.log(data.colors[0].color1);
-    var color1 = data.colors[0].color1;
-    var color2 = data.colors[0].color2;
-    var color3 = data.colors[0].color3;
     this.formUpdateProduct = this.formBuilder.group({
       name: [data.name, [Validators.required, Validators.minLength(3)]],
       price: [data.price, [Validators.required]],
-      quantity: [data.quantity, [Validators.required]],
       description: [data.description, [Validators.required]],
       categories: [cat, [Validators.required]],
-      color1: [color1, [Validators.required]],
-      color2: [color2, [Validators.required]],
-      color3: [color3, [Validators.required]],
-      size: [siz, [Validators.required]]
+      size: this.formBuilder.array([])
     });
+
+    this.setSize(siz);
+
     console.log(this.formUpdateProduct);
   }
-
 
   /////////////////////////////////////////////////////////////////////
 
@@ -94,27 +96,72 @@ export class EditproductsComponent implements OnInit {
     });
   }
   getsizes() {
-    console.log('a');
+    console.log("a");
     this.request.getSizes().subscribe(data => {
       console.log(data);
       this.sizes = data;
     });
   }
 
+  setSize(size) {
+    console.log(size);
+    size.map(size => {
+      this.sizeItems = this.formUpdateProduct.get("size") as FormArray;
+      this.sizeItems.push(this.setCreateSize(size));
+    });
+  }
 
+  setCreateSize(size): FormGroup {
+    console.log(size);
+    return this.formBuilder.group({
+      name: size.name,
+      sizeId: size.sizeId,
+      quantity: [size.quantity, Validators.required]
+    });
+  }
+
+  createSize(size): FormGroup {
+    return this.formBuilder.group({
+      name: size.size,
+      sizeId: size.id,
+      quantity: ["", Validators.required]
+    });
+  }
+
+  addItem(size): void {
+    var c = 0;
+    var k = this.formUpdateProduct.value.size.map(data => {
+      if (data.sizeId != size.id) {
+        console.log(data);
+        console.log(size.id);
+        console.log("diferentes");
+        return data;
+      } else {
+        console.log("repetido");
+        c++;
+      }
+    });
+    if (c == 0) {
+      this.sizeItems = this.formUpdateProduct.get("size") as FormArray;
+      console.log(this.sizeItems);
+      this.sizeItems.push(this.createSize(size));
+      console.log(this.formUpdateProduct);
+    }
+  }
+
+  removeItem(id) {
+    this.sizeItems.removeAt(id);
+  }
 
   updateProduct(p) {
     var product = this.formUpdateProduct.value;
     product.user_id = this.request.session.id;
     product.id = this.id;
-    product.colors = { id: this.colorId, color1: this.formUpdateProduct.value.color1, color2: this.formUpdateProduct.value.color2, color3: this.formUpdateProduct.value.color3 }
     console.log(product);
     this.request.updateProducts(product).subscribe(data => {
       console.log(data);
       this.router.navigate(["/admin/products/list"]);
-    }
-    );
+    });
   }
   ////////////////////////////////////////////////
-
 }

@@ -1,24 +1,30 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { RequestService } from 'src/app/services/request.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Params, Router } from "@angular/router";
+import { RequestService } from "src/app/services/request.service";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
-import { Location } from '@angular/common';
+import { Location } from "@angular/common";
 @Component({
-  selector: 'app-publicproduct',
-  templateUrl: './publicproduct.component.html',
-  styleUrls: ['./publicproduct.component.css']
+  selector: "app-publicproduct",
+  templateUrl: "./publicproduct.component.html",
+  styleUrls: ["./publicproduct.component.css"]
 })
 export class PublicproductComponent implements OnInit {
   id: number;
-  product = {};
+  product = { sizes: [] };
   related = [];
   formToAddCart: FormGroup;
-  constructor(private activeroute: ActivatedRoute, private request: RequestService, private router: Router, private _location: Location, private formBuilder: FormBuilder) {
-    this.id = this.activeroute.snapshot.params.id
+  constructor(
+    private activeroute: ActivatedRoute,
+    private request: RequestService,
+    private router: Router,
+    private _location: Location,
+    private formBuilder: FormBuilder
+  ) {
+    this.id = this.activeroute.snapshot.params.id;
     router.events.subscribe(val => {
       console.log(val);
-      this.id = this.activeroute.snapshot.params.id
+      this.id = this.activeroute.snapshot.params.id;
       this.getProduct();
       console.log(this.product);
     });
@@ -33,11 +39,9 @@ export class PublicproductComponent implements OnInit {
   createForm() {
     this.formToAddCart = this.formBuilder.group({
       size: ["", [Validators.required]],
-      quantity: [1, [Validators.required, Validators.min(1)]],
+      quantity: [1, [Validators.required, Validators.min(1)]]
     });
   }
-
-
 
   getProduct() {
     window.scroll(0, 0);
@@ -60,11 +64,24 @@ export class PublicproductComponent implements OnInit {
   }
 
   addToCart() {
-    var product = { product: this.product, request: this.formToAddCart.value }
-    this.request.addToCart(product).subscribe(data => {
-      console.log(data);
+    var validateSizes = this.product.sizes.filter(siz => {
+      return siz.id == this.formToAddCart.value.size;
     });
+    console.log(validateSizes);
+    if (
+      validateSizes[0].products_sizes.quantity >=
+      this.formToAddCart.value.quantity
+    ) {
+      var product = {
+        product: this.product,
+        request: this.formToAddCart.value
+      };
+      console.log(product);
+      this.request.addToCart(product).subscribe(data => {
+        console.log(data);
+      });
+    } else {
+      console.log("cantidad mayor que la existencia");
+    }
   }
-
-
 }

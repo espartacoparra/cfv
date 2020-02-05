@@ -25,7 +25,7 @@ import { DashboardComponent } from './components/admin/dashboard/dashboard.compo
 import { ProductslistComponent } from './components/admin/products/productslist/productslist.component';
 
 //modulos para formularios
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { CategoryComponent } from './components/admin/category/category.component';
@@ -37,6 +37,7 @@ import { PublicproductComponent } from './components/public/publicproduct/public
 import { PubliccategoriesComponent } from './components/public/publiccategories/publiccategories.component';
 import { RegisterproductsComponent } from './components/admin/products/registerproducts/registerproducts.component';
 import { EditproductsComponent } from './components/admin/products/editproducts/editproducts.component';
+import { PubliccartComponent } from './components/public/publiccart/publiccart.component';
 
 
 
@@ -64,6 +65,7 @@ import { EditproductsComponent } from './components/admin/products/editproducts/
     PubliccategoriesComponent,
     RegisterproductsComponent,
     EditproductsComponent,
+    PubliccartComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,6 +73,7 @@ import { EditproductsComponent } from './components/admin/products/editproducts/
     FontAwesomeModule,
     HttpClientModule,
     NgbModule,
+    FormsModule,
     ReactiveFormsModule,
     NgxSpinnerModule
   ],
