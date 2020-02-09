@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { RequestService } from "src/app/services/request.service";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-
+import { ToastsService } from "../../../services/toasts.service";
 import { Location } from "@angular/common";
 @Component({
   selector: "app-publicproduct",
@@ -19,13 +19,14 @@ export class PublicproductComponent implements OnInit {
     private request: RequestService,
     private router: Router,
     private _location: Location,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toast:ToastsService
   ) {
     this.id = this.activeroute.snapshot.params.id;
     router.events.subscribe(val => {
       console.log(val);
       this.id = this.activeroute.snapshot.params.id;
-      this.getProduct();
+      //this.getProduct();
       console.log(this.product);
     });
   }

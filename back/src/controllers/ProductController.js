@@ -27,7 +27,6 @@ class ProductController {
         where: { id: id },
         include: [
           { model: Models.Category },
-          { model: Models.Color },
           { model: Models.Size },
           { model: Models.Category },
           { model: Models.Image }
@@ -44,7 +43,6 @@ class ProductController {
       const products = await Models.Product.findAll({
         include: [
           { model: Models.Category, where: { category: 'Ofertas' } },
-          { model: Models.Color },
           { model: Models.Size },
           { model: Models.Category },
           { model: Models.Image }

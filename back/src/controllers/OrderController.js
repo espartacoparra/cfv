@@ -43,21 +43,30 @@ class CartController {
       } else {
         oder_id = Val.id;
       }
+      
       const Product = await Models.Product.findOne({
         where: { id: data.product.id }
       });
-      const Item = await Models.Item.create({
-        id: "",
-        order_id: oder_id,
-        product_id: data.product.id,
-        quantity: data.request.quantity,
-        size_id: data.request.size,
-        price: Product.price
+      var validateSize =Val.items.filter(item=>{
+        if (item.product_id == data.product.id && item.size_id == data.request.size) {
+          return item;
+        }
       });
+      
+      if (validateSize.length == 0) {
+        const Item = await Models.Item.create({
+          id: "",
+          order_id: oder_id,
+          product_id: data.product.id,
+          quantity: data.request.quantity,
+          size_id: data.request.size,
+          price: Product.price
+        });
+        return res.json('01');
+      }
+      return res.json('02');
+     
 
-      //const updateOrder = Models.Order.update()
-
-      return res.json(Item);
     } catch (error) {
       res.json("error");
     }
